@@ -1,0 +1,54 @@
+Create DATABASE GaleriaSztuki;
+go
+USE GaleriaSztuki;
+go
+
+create table Artysci
+(
+    Artysta_ID smallint not null PRIMARY KEY IDENTITY(1,1),
+    Imie nvarchar(50) not null,
+    Nazwisko nvarchar(50) not null,
+    Rok_Urodzenia smallint not null,
+    Kraj_Urodzenia nvarchar(50)
+)
+
+create table Dziela
+(
+	Dzielo_ID smallint not null PRIMARY KEY IDENTITY(1,1),
+	Tytul nvarchar(200) not null,
+	Artysta_ID smallint foreign key references Artysci(Artysta_ID),
+	Rok_Powstania smallint not null,
+	Cena decimal
+)
+
+create table Wystawy
+(
+	Wystawa_ID smallint not null PRIMARY KEY IDENTITY(1,1),
+	Nazwa nvarchar(200) not null,
+	Data_Rozpoczecia date,
+	Data_Zakonczenia date
+)
+
+create table Wystawy_Dziela
+(
+	Wystawa_ID smallint FOREIGN KEY REFERENCES Wystawy(Wystawa_ID),
+	Dzielo_ID smallint FOREIGN KEY REFERENCES Dziela(Dzielo_ID)
+)
+
+create table Klienci
+(
+	Klient_ID smallint not null PRIMARY KEY IDENTITY(1,1),
+	Imie nvarchar(50) not null,
+	Nazwisko nvarchar(50) not null,
+	Email nvarchar(100),
+	Numer_Telefonu nvarchar(20)
+)
+
+create table Sprzedaze
+(
+	Sprzedaz_ID smallint not null PRIMARY KEY IDENTITY(1,1),
+	Dzielo_ID smallint FOREIGN KEY REFERENCES Dziela(Dzielo_ID),
+	Klient_ID smallint FOREIGN KEY REFERENCES Klienci(Klient_ID),
+	Data_Sprzedazy date not null,
+	Cena_Sprzedazy decimal not null
+)
